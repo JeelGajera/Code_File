@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Practical | 14</title>
+    <link rel="stylesheet" href="main.css" />
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.11/jquery.csv.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="title">
+        <center>Data Visualization | Practical-14 | Jeel Gajera - 200280107080</center>
+    </div>
+    <main class="main">
+        <div class="flex justify-center items-center">
+            <label for="attribute-select">Select Attribute:</label>
+            <select id="attribute-select">
+                <option value="cnt">Total Count</option>
+                <option value="registered">Registered Count</option>
+                <option value="casual">Casual Count</option>
+                <option value="temp">Temperature</option>
+                <option value="hum">Humidity</option>
+            </select>
+        </div>
+        <div class="w-full flex">
+            <div>
+                <div id="chart1" style="width: 700px; height: 600px;"></div>
+            </div>
+            <div>
+                <div id="chart2" style="width: 700px; height: 600px;"></div>
+            </div>
+        </div>
+    </main>
+    <script>
+        // Function to read CSV file and create charts
+        function createDashboardFromCSV(csvData, attribute) {
+            // Parse the CSV data into an array of objects
+            const data = $.csv.toObjects(csvData);
+
+            // Extract relevant data for the charts
+            const labels = data.map(item => item.dteday);
+            const selectedData = data.map(item => parseFloat(item[attribute]));
+
+            // Clear existing chart elements
+            $('#chart1').empty();
+            $('#chart2').empty();
+
+            // Load Google Charts library
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(drawCharts);
+
+            // Draw the Google Charts
+            function drawCharts() {
+                // Create Google Charts line chart
+                const chart1Data = google.visualization.arrayToDataTable([
+                    ['Date', attribute],
+                    ...labels.map((label, index) => [label, selectedData[index]])
+                ]);
+                const chart1Options = {
+                    title: 'Counts Over Time',
+
+                    curveType: 'function',
+                    legend: { position: 'bottom' }
+                };
+                const chart1 = new google.visualization.LineChart(document.getElementById('chart1'));
+                chart1.draw(chart1Data, chart1Options);
+
+                // Create Google Charts column chart
+                const chart2Data = google.visualization.arrayToDataTable([
+                    ['Date', attribute],
+                    ...labels.map((label, index) => [label, selectedData[index]])
+                ]);
+                const chart2Options = {
+                    title: 'Counts by Month',
+                    legend: { position: 'none' }
+                };
+                const chart2 = new google.visualization.ColumnChart(document.getElementById('chart2'));
+                chart2.draw(chart2Data, chart2Options);
+            }
+        }
+
+        // Read CSV file and call createDashboardFromCSV function
+        $.ajax({
+            type: 'GET',
+            url: 'rent_bike.csv',
+            dataType: 'text',
+            success: function (csvData) {
+                const attributeSelect = document.getElementById('attribute-select');
+                attributeSelect.addEventListener('change', function () {
+                    const selectedAttribute = this.value;
+                    createDashboardFromCSV(csvData, selectedAttribute);
+                });
+
+                // Initially create dashboard with default attribute
+                const defaultAttribute = attributeSelect.value;
+                createDashboardFromCSV(csvData, defaultAttribute);
+            }
+        });
+    </script>
+    <div class="footer">
+        <center>
+            <a href="https://www.github.com/JeelGajera" target="_blank">
+                <img src="https://img.shields.io/github/followers/JeelGajera?label=Follow%20Me%20On%20Github&style=social"
+                    alt="Follow Me On Github" />
+            </a>
+        </center>
+    </div>
+</body>
+
+</html>

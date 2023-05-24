@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Practical | 11</title>
+    <link rel="stylesheet" href="main.css" />
+    <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+</head>
+
+<body>
+    <div class="title">
+        <center>Data Visualization | Practical-11 | Jeel Gajera - 200280107080</center>
+    </div>
+    <main class="main">
+        <div id="map"></div>
+    </main>
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: 20.5937, lng: 78.9629 }, // India's coordinates
+                zoom: 5
+            });
+
+            // Load the JSON data
+            fetch('map_data.json')
+                .then(response => response.json())
+                .then(data => {
+                    // Iterate over the JSON data
+                    data.forEach(item => {
+                        var lat = item.lat;
+                        var lng = item.lng;
+
+                        // Create a marker for each geographic area
+                        var marker = new google.maps.Marker({
+                            position: { lat: lat, lng: lng },
+                            map: map,
+                            title: item.name
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading JSON data:', error);
+                });
+        }
+    </script>
+    <div class="footer">
+        <center>
+            <a href="https://www.github.com/JeelGajera" target="_blank">
+                <img src="https://img.shields.io/github/followers/JeelGajera?label=Follow%20Me%20On%20Github&style=social"
+                    alt="Follow Me On Github" />
+            </a>
+        </center>
+    </div>
+</body>
+
+</html>

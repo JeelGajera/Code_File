@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Practical | 13</title>
+    <link rel="stylesheet" href="main.css" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+
+<body>
+    <div class="title">
+        <center>Data Visualization | Practical-13 | Jeel Gajera - 200280107080</center>
+    </div>
+    <main class="main">
+        <div id="line-chart-container" style="margin-left: -64rem;"></div>
+        <div id="chart-container"></div>
+        <!--  -->
+        <div style="margin-top: 32rem;">
+            <div id="pie-chart-container"></div>
+            <h1>Multiple pie chart :</h1>
+            <div id="multiple-pie-chart-container"></div>
+        </div>
+        <div>
+            <div id="simple-bar-chart" style="margin-left: -28rem; width: 400px; margin-top: 8rem;"></div>
+            <div id="grouped-bar-chart"></div>
+        </div>
+    </main>
+    <script>
+        // Define the data for the line chart
+        var data = [
+            { year: 2015, series1: 10, series2: 15, series3: 7 },
+            { year: 2016, series1: 12, series2: 18, series3: 9 },
+            { year: 2017, series1: 8, series2: 14, series3: 6 },
+            { year: 2018, series1: 11, series2: 16, series3: 8 },
+            { year: 2019, series1: 14, series2: 20, series3: 10 }
+        ];
+
+        // Create a new D3.js selection
+        var chart = d3.select("#chart-container");
+
+        // Define the dimensions of the chart
+        // var chartWidth = 600;
+        // var chartHeight = 400;
+
+        // Create the canvas for the chart using Canvas.js
+        var canvas = new CanvasJS.Chart("chart-container", {
+            animationEnabled: true,
+            title: {
+                text: "Line Chart with Multiple Lines"
+            },
+            axisX: {
+                title: "Year"
+            },
+            axisY: {
+                title: "Value"
+            },
+            data: [
+                {
+                    type: "line",
+                    name: "Series 1",
+                    dataPoints: data.map(function (d) {
+                        return { label: d.year, y: d.series1 };
+                    })
+                },
+                {
+                    type: "line",
+                    name: "Series 2",
+                    dataPoints: data.map(function (d) {
+                        return { label: d.year, y: d.series2 };
+                    })
+                },
+                {
+                    type: "line",
+                    name: "Series 3",
+                    dataPoints: data.map(function (d) {
+                        return { label: d.year, y: d.series3 };
+                    })
+                }
+            ]
+        });
+
+        var lineChartData = [
+            { year: 2010, value: 100 },
+            { year: 2011, value: 200 },
+            { year: 2012, value: 150 },
+            { year: 2013, value: 300 },
+            { year: 2014, value: 250 }
+        ];
+
+        // Create Line Chart
+        var lineChart = new CanvasJS.Chart("line-chart-container", {
+            animationEnabled: true,
+            title: {
+                text: "Line Chart"
+            },
+            axisX: {
+                title: "Year"
+            },
+            axisY: {
+                title: "Value"
+            },
+            data: [
+                {
+                    type: "line",
+                    dataPoints: lineChartData.map(function (d) {
+                        return { x: d.year, y: d.value };
+                    })
+                }
+            ]
+        });
+
+        // Render Line Chart
+        lineChart.render();
+        // Render the chart
+        canvas.render();
+    </script>
+    <script>
+        // Single Pie Chart Data
+        var singlePieData = [
+            { label: "Category 1", y: 30 },
+            { label: "Category 2", y: 20 },
+            { label: "Category 3", y: 50 }
+        ];
+
+        // Create Single Pie Chart
+        var singlePieChart = new CanvasJS.Chart("pie-chart-container", {
+            animationEnabled: true,
+            title: {
+                text: "Single Pie Chart"
+            },
+            data: [
+                {
+                    type: "pie",
+                    indexLabel: "{label} - {y}%",
+                    dataPoints: singlePieData
+                }
+            ]
+        });
+
+        // Render Single Pie Chart
+        singlePieChart.render();
+
+        // Multiple Pie Chart Data
+        var multiplePieData = [
+            [
+                { label: "Category 1", y: 30 },
+                { label: "Category 2", y: 20 },
+                { label: "Category 3", y: 50 }
+            ],
+            [
+                { label: "Category A", y: 40 },
+                { label: "Category B", y: 25 },
+                { label: "Category C", y: 35 }
+            ],
+            [
+                { label: "Group X", y: 15 },
+                { label: "Group Y", y: 30 },
+                { label: "Group Z", y: 55 }
+            ]
+        ];
+
+        // Create Multiple Pie Charts
+
+        // Multiple Pie Chart Data
+        var multiplePieData = [
+            [
+                { label: "Category 1", y: 30 },
+                { label: "Category 2", y: 20 },
+                { label: "Category 3", y: 50 }
+            ],
+            [
+                { label: "Category A", y: 40 },
+                { label: "Category B", y: 25 },
+                { label: "Category C", y: 35 }
+            ],
+            [
+                { label: "Group X", y: 15 },
+                { label: "Group Y", y: 30 },
+                { label: "Group Z", y: 55 }
+            ]
+        ];
+
+        multiplePieData.forEach(function (data, index) {
+            var containerId = "pie-chart-container-" + index;
+            var container = document.createElement("div");
+            container.id = containerId;
+            container.style.width = "400px";
+            container.style.height = "400px";
+            container.style.display = "inline-block"
+            container.style.verticalAlign = 'middle'
+            document.getElementById("multiple-pie-chart-container").appendChild(container);
+
+            var chart = new CanvasJS.Chart(containerId, {
+                animationEnabled: true,
+                title: {
+                    text: "Pie Chart " + (index + 1)
+                },
+                data: [
+                    {
+                        type: "pie",
+                        showInLegend: true,
+                        legendText: "{label}",
+                        indexLabel: "{label} - {y}%",
+                        dataPoints: data
+                    }
+                ]
+            });
+
+            chart.render();
+        });
+    </script>
+    <script>
+        // Define the data for the simple bar chart
+        var simpleChartData = [
+          { label: 'Category 1', value: 10 },
+          { label: 'Category 2', value: 15 },
+          { label: 'Category 3', value: 7 },
+          { label: 'Category 4', value: 12 }
+        ];
+    
+        // Define the data for the grouped bar chart
+        var groupedChartData = [
+          { category: 'Group 1', value1: 10, value2: 5 },
+          { category: 'Group 2', value1: 15, value2: 8 },
+          { category: 'Group 3', value1: 7, value2: 3 },
+          { category: 'Group 4', value1: 12, value2: 6 }
+        ];
+    
+        // Create a new D3.js selection for the simple bar chart
+        var simpleBarChart = d3.select("#simple-bar-chart");
+    
+        // Define the dimensions of the simple bar chart
+        var simpleChartWidth = 400;
+        var simpleChartHeight = 300;
+    
+        // Create the canvas for the simple bar chart using Canvas.js
+        var simpleBarCanvas = new CanvasJS.Chart("simple-bar-chart", {
+          animationEnabled: true,
+          title: {
+            text: "Simple Bar Chart"
+          },
+          axisX: {
+            title: "Category"
+          },
+          axisY: {
+            title: "Value"
+          },
+          data: [
+            {
+              type: "column",
+              dataPoints: simpleChartData.map(function (d) {
+                return { label: d.label, y: d.value };
+              })
+            }
+          ]
+        });
+    
+        // Render the simple bar chart
+        simpleBarCanvas.render();
+    
+        // Create a new D3.js selection for the grouped bar chart
+        var groupedBarChart = d3.select("#grouped-bar-chart");
+    
+        // Define the dimensions of the grouped bar chart
+        var groupedChartWidth = 400;
+        var groupedChartHeight = 300;
+    
+        // Create the canvas for the grouped bar chart using Canvas.js
+        var groupedBarCanvas = new CanvasJS.Chart("grouped-bar-chart", {
+          animationEnabled: true,
+          title: {
+            text: "Grouped Bar Chart"
+          },
+          axisX: {
+            title: "Category"
+          },
+          axisY: {
+            title: "Value"
+          },
+          data: [
+            {
+              type: "column",
+              name: "Value 1",
+              dataPoints: groupedChartData.map(function (d) {
+                return { label: d.category, y: d.value1 };
+              })
+            },
+            {
+              type: "column",
+              name: "Value 2",
+              dataPoints: groupedChartData.map(function (d) {
+                return { label: d.category, y: d.value2 };
+              })
+            }
+          ]
+        });
+    
+        // Render the grouped bar chart
+        groupedBarCanvas.render();
+      </script>
+    <div class="footer" style="margin-top: 28rem;">
+        <center>
+            <a href="https://www.github.com/JeelGajera" target="_blank">
+                <img src="https://img.shields.io/github/followers/JeelGajera?label=Follow%20Me%20On%20Github&style=social"
+                    alt="Follow Me On Github" />
+            </a>
+        </center>
+    </div>
+</body>
+
+</html>

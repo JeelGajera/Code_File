@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Practical | 7</title>
+    <link rel="stylesheet" href="main.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="title">
+        <center>Data Visualization | Practical-7 | Jeel Gajera - 200280107080</center>
+    </div>
+    <main class="main">
+        <h1>Data Table from XML File</h1>
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <h1>XML to jQuery Chart</h1>
+
+        <canvas style="max-width: 600px; max-height: 400px;" id="chart"></canvas>
+    </main>
+    <script>
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "data_xml.xml",
+                dataType: "xml",
+                success: function (xml) {
+                    $(xml).find('person').each(function () {
+                        var name = $(this).find('name').text();
+                        var age = $(this).find('age').text();
+                        var gender = $(this).find('gender').text();
+                        $('#data-table tbody').append('<tr><td>' + name + '</td><td>' + age + '</td><td>' + gender + '</td></tr>');
+                    });
+                },
+                error: function () {
+                    alert("Error loading XML file");
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "data.xml",
+                dataType: "xml",
+                success: function (xml) {
+                    var labels = [];
+                    var data = [];
+
+                    $(xml).find("person").each(function () {
+                        var name = $(this).find("name").text();
+                        var age = parseInt($(this).find("age").text());
+
+                        labels.push(name);
+                        data.push(age);
+                    });
+
+                    // Create the chart using Chart.js
+                    var ctx = document.getElementById("chart").getContext("2d");
+                    new Chart(ctx, {
+                        type: "line",
+                        data: {
+                            labels: labels,
+                            datasets: [{
+                                label: "Age",
+                                data: data,
+                                backgroundColor: "rgba(75, 192, 192, 0.5)",
+                                borderColor: "rgba(75, 192, 192, 1)",
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        });
+    </script>
+    <div class="footer">
+        <center>
+            <a href="https://www.github.com/JeelGajera" target="_blank">
+                <img src="https://img.shields.io/github/followers/JeelGajera?label=Follow%20Me%20On%20Github&style=social"
+                    alt="Follow Me On Github" />
+            </a>
+        </center>
+    </div>
+</body>
+
+</html>

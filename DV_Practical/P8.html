@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Practical | 8</title>
+    <link rel="stylesheet" href="main.css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="title">
+        <center>Data Visualization | Practical-8 | Jeel Gajera - 200280107080</center>
+    </div>
+    <main class="main">
+        <h1>Data Table from Json</h1>
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <h1>Json to jQuery Chart</h1>
+        <canvas style="max-width: 600px; max-height: 400px;" id="chart"></canvas>
+    
+    </main>
+    <script>$(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "data.json",
+                dataType: "json",
+                success: function (data) {
+                    var tableBody = $("#data-table tbody");
+
+                    $.each(data, function (index, person) {
+                        var row = $("<tr>");
+                        row.append($("<td>").text(person.name));
+                        row.append($("<td>").text(person.age));
+                        row.append($("<td>").text(person.gender));
+                        tableBody.append(row);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        });
+        $(document).ready(function() {
+    $.ajax({
+        type: "GET",
+        url: "data_json.json",
+        dataType: "json",
+        success: function(data) {
+            var labels = [];
+            var ages = [];
+
+            $.each(data, function(index, person) {
+                labels.push(person.name);
+                ages.push(person.age);
+            });
+
+            // Create the chart using Chart.js
+            var ctx = document.getElementById("chart").getContext("2d");
+            new Chart(ctx, {
+                type: "bar",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Age",
+                        data: ages,
+                        backgroundColor: "rgba(75, 192, 192, 0.5)",
+                        borderColor: "rgba(75, 192, 192, 1)",
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        },
+        error: function(xhr, status, error) {
+            console.log(error);
+        }
+    });
+});
+    </script>
+    <div class="footer">
+        <center>
+            <a href="https://www.github.com/JeelGajera" target="_blank">
+                <img src="https://img.shields.io/github/followers/JeelGajera?label=Follow%20Me%20On%20Github&style=social"
+                    alt="Follow Me On Github" />
+            </a>
+        </center>
+    </div>
+</body>
+
+</html>

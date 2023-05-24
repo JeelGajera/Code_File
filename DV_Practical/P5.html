@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Practical | 5</title>
+    <link rel="stylesheet" href="main.css" />
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="title">
+        <center>Data Visualization | Practical-5 | Jeel Gajera - 200280107080</center>
+    </div>
+    <main class="main">
+        <h1>Table</h1>
+        <table id="data-table">
+            <tbody>
+            </tbody>
+        </table>
+        <canvas id="bar-chart" width="400" height="400"></canvas>
+        <h1>Bar Chart</h1>
+    </main>
+    <script>
+        $(document).ready(function () {
+            $.get("jeel.txt", function (data) {
+                var lines = data.split("\n");
+                var tbody = $("#data-table tbody");
+                $.each(lines, function (index, line) {
+                    var fields = line.split(",");
+                    var tr = $("<tr>");
+                    $.each(fields, function (index, field) {
+                        var td = $("<td>").text(field);
+                        tr.append(td);
+                    });
+                    tbody.append(tr);
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $.get("data.txt", function (data) {
+                var lines = data.split("\n");
+                var canvas = document.getElementById("bar-chart");
+                var ctx = canvas.getContext("2d");
+                var x = 50;
+                var y = 50;
+                var barWidth = 20;
+                var barSpacing = 10;
+                var maxValue = 0;
+                // Find the maximum value in the data
+                $.each(lines, function (index, line) {
+                    var fields = line.split(",");
+                    var value = parseInt(fields[1]);
+                    if (value > maxValue) {
+                        maxValue = value;
+                    }
+                });
+                // Draw the bars and labels
+                $.each(lines, function (index, line) {
+                    var fields = line.split(",");
+                    var label = fields[0];
+                    var value = parseInt(fields[1]);
+                    var barHeight = value / maxValue * (canvas.height - 2 * y);
+                    ctx.fillStyle = "blue";
+                    ctx.fillRect(x, y + (canvas.height - 2 * y - barHeight), barWidth, barHeight);
+                    ctx.fillStyle = "black";
+                    ctx.fillText(label, x, canvas.height - y);
+                    x += barWidth + barSpacing;
+                });
+            });
+        });
+    </script>
+    <div class="footer">
+        <center>
+            <a href="https://www.github.com/JeelGajera" target="_blank">
+                <img src="https://img.shields.io/github/followers/JeelGajera?label=Follow%20Me%20On%20Github&style=social"
+                    alt="Follow Me On Github" />
+            </a>
+        </center>
+    </div>
+</body>
+
+</html>

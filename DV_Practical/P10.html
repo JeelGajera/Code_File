@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Practical | 10</title>
+    <link rel="stylesheet" href="main.css" />
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+
+<body>
+    <div class="title">
+        <center>Data Visualization | Practical-10 | Jeel Gajera - 200280107080</center>
+    </div>
+    <main class="main">
+        <div id="chart-container1"></div>
+        <div id="chart-container2"></div>
+        <div id="chart-container3"></div>
+    </main>
+    <script>
+        google.charts.load('current', { 'packages': ['corechart'] });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+            var data1 = google.visualization.arrayToDataTable([
+                ['Coldrinks', 'Quantity'],
+                ['Water', 11],
+                ['Suger', 2],
+                ['Flavours', 7],
+                ['Co2', 4],
+            ]);
+            var options1 = {
+                title: 'Donaught Chart',
+                is3D: true,
+            };
+            var chart1 = new google.visualization.PieChart(document.getElementById('chart-container1'));
+            chart1.draw(data1, options1);
+
+            // Candlestick Chart
+            var data2 = google.visualization.arrayToDataTable([
+                ['Day', 'Low', 'Opening', 'Closing', 'High'],
+                ['Mon', 20, 28, 38, 45],
+                ['Tue', 31, 38, 55, 66],
+                ['Wed', 50, 55, 77, 80],
+                ['Thu', 77, 77, 66, 50],
+                ['Fri', 68, 66, 22, 15]
+            ]);
+            var options2 = {
+                legend: 'none',
+                title: 'Candestick Chart',
+                candlestick: {
+                    fallingColor: { strokeWidth: 0, fill: '#a52714' },
+                    risingColor: { strokeWidth: 0, fill: '#0f9d58' }
+                }
+            };
+            var chart2 = new google.visualization.CandlestickChart(document.getElementById('chart-container2'));
+            chart2.draw(data2, options2);
+
+            // Area chart
+            var data3 = google.visualization.arrayToDataTable([
+                ['Year', 'Sales', 'Expenses'],
+                ['2016', 1000, 400],
+                ['2017', 1170, 460],
+                ['2018', 660, 1120],
+                ['2019', 1030, 540]
+            ]);
+            var options3 = {
+                title: 'Area Chart',
+                hAxis: { title: 'Year', titleTextStyle: { color: '#333' } },
+                vAxis: { minValue: 0 },
+                isStacked: true,
+                areaOpacity: 0.5
+            };
+            var chart3 = new google.visualization.AreaChart(document.getElementById('chart-container3'));
+            chart3.draw(data3, options3);
+        }
+    </script>
+    <div class="footer">
+        <center>
+            <a href="https://www.github.com/JeelGajera" target="_blank">
+                <img src="https://img.shields.io/github/followers/JeelGajera?label=Follow%20Me%20On%20Github&style=social"
+                    alt="Follow Me On Github" />
+            </a>
+        </center>
+    </div>
+</body>
+
+</html>

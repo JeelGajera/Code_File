@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Practical | 4</title>
+    <link rel="stylesheet" href="main.css" />
+</head>
+
+<body>
+    <div class="title">
+        <center>Data Visualization | Practical-4 | Jeel Gajera - 200280107080</center>
+    </div>
+    <main class="main">
+        <canvas id="myCanvas" width="400" height="300"></canvas>
+
+        <script>
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+
+            // Bar data
+            var data = [50, 30, 10, 90, 10];
+
+            // Bar colors
+            var colors = ["red", "blue", "yellow", "orange", "purple"];
+
+            // Bar dimensions
+            var barWidth = 50;
+            var barSpacing = 20;
+            var maxHeight = canvas.height - 50;
+
+            // Determine the maximum data value
+            var maxDataValue = Math.max.apply(null, data);
+
+            // Draw each bar
+            for (var i = 0; i < data.length; i++) {
+                // Calculate the height of the bar
+                var height = data[i] / maxDataValue * maxHeight;
+
+                // Set the bar color
+                ctx.fillStyle = colors[i];
+
+                // Draw the bar
+                ctx.fillRect(i * (barWidth + barSpacing) + barSpacing, canvas.height - height - 25, barWidth, height);
+
+                // Draw the label
+                ctx.fillStyle = "black";
+                ctx.fillText(data[i], i * (barWidth + barSpacing) + barSpacing + 20, canvas.height - height - 30);
+            }
+        </script>
+    </main>
+    <div class="footer">
+        <center>
+            <a href="https://www.github.com/JeelGajera" target="_blank">
+                <img src="https://img.shields.io/github/followers/JeelGajera?label=Follow%20Me%20On%20Github&style=social"
+                    alt="Follow Me On Github" />
+            </a>
+        </center>
+    </div>
+</body>
+
+</html>

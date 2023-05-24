@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Practical | 6</title>
+    <link rel="stylesheet" href="main.css" />
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.11/jquery.csv.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+</head>
+
+<body>
+    <div class="title">
+        <center>Data Visualization | Practical-6 | Jeel Gajera - 200280107080</center>
+    </div>
+    <main class="main">
+        <h1>Table</h1>
+        <table id="data-table"></table>
+        <div id="chart"></div>
+        <h1>Bar Chart</h1>
+    </main>
+    <script>
+        $(document).ready(function () {
+            $.get("csv_data.csv", function (data) {
+                var rows = $.csv.toArrays(data);
+                drawDataTable(rows);
+            });
+
+            function drawDataTable(data) {
+                var table = $("#data-table");
+                $.each(data, function (index, row) {
+                    var tr = $("<tr></tr>");
+                    $.each(row, function (index, value) {
+                        var td = $("<td></td>").text(value);
+                        tr.append(td);
+                    });
+                    table.append(tr);
+                });
+            }
+        });
+
+        d3.csv("data.csv").then(function (data) {
+            var margin = { top: 20, right: 20, bottom: 70, left: 40 };
+            var width = 600 - margin.left - margin.right;
+            var height = 300 - margin.top - margin.bottom;
+
+            var svg = d3
+                .select("#chart")
+                .append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+            var xScale = d3
+                .scaleBand()
+                .range([0, width])
+                .domain(
+                    data.map(function (d) {
+                        return d.xAxis;
+                    })
+                )
+                .padding(0.2);
+
+            var yScale = d3
+                .scaleLinear()
+                .range([height, 0])
+                .domain([
+                    0,
+                    d3.max(data, function (d) {
+                        return d.yAxis;
+                    })
+                ]);
+
+            svg
+                .append("g")
+                .attr("transform", "translate(0," + height + ")")
+                .call(d3.axisBottom(xScale));
+
+            svg.append("g").call(d3.axisLeft(yScale));
+
+            svg
+                .selectAll(".bar")
+                .data(data)
+                .enter()
+                .append("rect")
+                .attr("class", "bar")
+                .attr("x", function (d) {
+                    return xScale(d.xAxis);
+                })
+                .attr("y", function (d) {
+                    return yScale(d.yAxis);
+                })
+                .attr("width", xScale.bandwidth())
+                .attr("height", function (d) {
+                    return height - yScale(d.yAxis);
+                });
+        });
+    </script>
+    <div class="footer">
+        <center>
+            <a href="https://www.github.com/JeelGajera" target="_blank">
+                <img src="https://img.shields.io/github/followers/JeelGajera?label=Follow%20Me%20On%20Github&style=social"
+                    alt="Follow Me On Github" />
+            </a>
+        </center>
+    </div>
+</body>
+
+</html>
